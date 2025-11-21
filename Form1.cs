@@ -21868,23 +21868,10 @@ M3,0.0225,4.21875E-05,200000000";
                 // Tokenize the input
                 var tokens = SimpleTokenize(inputText);
 
-                // Display results (thread-safe pattern)
-                if (listBoxTokens.InvokeRequired)
+                // Display results
+                foreach (var token in tokens)
                 {
-                    listBoxTokens.Invoke(new Action(() =>
-                    {
-                        foreach (var token in tokens)
-                        {
-                            listBoxTokens.Items.Add(token);
-                        }
-                    }));
-                }
-                else
-                {
-                    foreach (var token in tokens)
-                    {
-                        listBoxTokens.Items.Add(token);
-                    }
+                    listBoxTokens.Items.Add(token);
                 }
             }
             catch (Exception ex)

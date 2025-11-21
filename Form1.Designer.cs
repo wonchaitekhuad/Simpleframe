@@ -132,19 +132,19 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             // 
             this.txtInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtInput.Location = new System.Drawing.Point(820, 60);
+            this.txtInput.Location = new System.Drawing.Point(12, 455);
             this.txtInput.Multiline = true;
             this.txtInput.Name = "txtInput";
             this.txtInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtInput.Size = new System.Drawing.Size(70, 60);
+            this.txtInput.Size = new System.Drawing.Size(630, 80);
             this.txtInput.TabIndex = 52;
             // 
             // btnAnalyze
             // 
             this.btnAnalyze.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAnalyze.Location = new System.Drawing.Point(820, 125);
+            this.btnAnalyze.Location = new System.Drawing.Point(648, 455);
             this.btnAnalyze.Name = "btnAnalyze";
-            this.btnAnalyze.Size = new System.Drawing.Size(70, 25);
+            this.btnAnalyze.Size = new System.Drawing.Size(100, 30);
             this.btnAnalyze.TabIndex = 53;
             this.btnAnalyze.Text = "Analyze";
             this.btnAnalyze.UseVisualStyleBackColor = true;
@@ -156,9 +156,9 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxTokens.FormattingEnabled = true;
-            this.listBoxTokens.Location = new System.Drawing.Point(12, 455);
+            this.listBoxTokens.Location = new System.Drawing.Point(12, 541);
             this.listBoxTokens.Name = "listBoxTokens";
-            this.listBoxTokens.Size = new System.Drawing.Size(878, 4);
+            this.listBoxTokens.Size = new System.Drawing.Size(878, 225);
             this.listBoxTokens.TabIndex = 54;
             // 
             // Panel1
@@ -926,7 +926,7 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(902, 461);
+            this.ClientSize = new System.Drawing.Size(902, 780);
             this.Controls.Add(this.listBoxTokens);
             this.Controls.Add(this.btnAnalyze);
             this.Controls.Add(this.txtInput);
