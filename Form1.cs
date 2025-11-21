@@ -32,6 +32,9 @@ namespace Graphical_2D_Frame_Analysis_CSharp
 {
     public partial class Form1 : Form
     {
+        // List to store coordinate points
+        private List<PointF> coordinatePoints = new List<PointF>();
+
         public Form1()
         {
             InitializeComponent();
@@ -39,6 +42,37 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             this.DoubleBuffered = true;
             this.SetStyle(ControlStyles.ResizeRedraw, true);
 
+        }
+        
+        // Event handler for Add Point button
+        private void btnAddPoint_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Parse X and Y coordinates from textboxes
+                if (float.TryParse(txtX.Text, out float x) && float.TryParse(txtY.Text, out float y))
+                {
+                    // Create a point and add to the list
+                    PointF point = new PointF(x, y);
+                    coordinatePoints.Add(point);
+                    
+                    // Add to ListBox for display
+                    listBoxPoints.Items.Add($"{x},{y}");
+                    
+                    // Clear the input fields for next entry
+                    txtX.Clear();
+                    txtY.Clear();
+                    txtX.Focus();
+                }
+                else
+                {
+                    MessageBox.Show("Please enter valid numeric values for X and Y coordinates.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error adding point: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         
         protected override void WndProc(ref Message m)
