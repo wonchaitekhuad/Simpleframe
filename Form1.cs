@@ -32,6 +32,9 @@ namespace Graphical_2D_Frame_Analysis_CSharp
 {
     public partial class Form1 : Form
     {
+        // Store user-inputted coordinate points
+        private List<PointF> _points = new List<PointF>();
+
         public Form1()
         {
             InitializeComponent();
@@ -21954,7 +21957,68 @@ M3,0.0225,4.21875E-05,200000000";
 
 
 
+        /// <summary>
+        /// Handler for Add Point button click.
+        /// Parses X and Y coordinates from textboxes, validates, and adds to the points list and ListBox.
+        /// TODO: Integrate with real parser for coordinate input processing.
+        /// </summary>
+        private void BtnAddPoint_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Parse X and Y coordinates using InvariantCulture for consistent parsing
+                if (!double.TryParse(txtX.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out double x))
+                {
+                    MessageBox.Show("Invalid X coordinate. Please enter a valid number.", "Input Error", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
+                if (!double.TryParse(txtY.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out double y))
+                {
+                    MessageBox.Show("Invalid Y coordinate. Please enter a valid number.", "Input Error", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Create and add the point
+                PointF point = new PointF((float)x, (float)y);
+                _points.Add(point);
+
+                // Display in ListBox with format "x,y"
+                string formattedPoint = string.Format(CultureInfo.InvariantCulture, "{0},{1}", x, y);
+                
+                // Use Invoke if required (for thread safety)
+                if (listBoxPoints.InvokeRequired)
+                {
+                    listBoxPoints.Invoke(new Action(() => listBoxPoints.Items.Add(formattedPoint)));
+                }
+                else
+                {
+                    listBoxPoints.Items.Add(formattedPoint);
+                }
+
+                // Clear the input fields for next point
+                txtX.Clear();
+                txtY.Clear();
+                txtX.Focus();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error adding point: {ex.Message}", "Error", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Returns a read-only list of all stored coordinate points.
+        /// TODO: Integrate this with the parser/analysis workflow.
+        /// </summary>
+        /// <returns>Read-only list of PointF coordinates</returns>
+        public IReadOnlyList<PointF> GetPoints()
+        {
+            return _points.AsReadOnly();
+        }
 
     }
 

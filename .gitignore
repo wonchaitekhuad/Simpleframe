@@ -1,0 +1,14 @@
+# Build artifacts
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.user
+*.suo
+*.cache
+
+# Visual Studio
+.vs/
+*.csproj.user
+*.vbproj.user
