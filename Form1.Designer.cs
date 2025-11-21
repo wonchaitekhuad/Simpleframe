@@ -38,6 +38,10 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.viewResultTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtX = new System.Windows.Forms.TextBox();
+            this.txtY = new System.Windows.Forms.TextBox();
+            this.btnAddPoint = new System.Windows.Forms.Button();
+            this.listBoxPoints = new System.Windows.Forms.ListBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
@@ -174,8 +178,42 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             this.viewPropertiesToolStripMenuItem.Text = "View Properties";
             this.viewPropertiesToolStripMenuItem.Click += new System.EventHandler(this.viewPropertiesToolStripMenuItem_Click);
             // 
-            // button2
+            // txtX
             // 
+            this.txtX.Location = new System.Drawing.Point(12, 30);
+            this.txtX.Name = "txtX";
+            this.txtX.Size = new System.Drawing.Size(60, 20);
+            this.txtX.TabIndex = 52;
+            // 
+            // txtY
+            // 
+            this.txtY.Location = new System.Drawing.Point(78, 30);
+            this.txtY.Name = "txtY";
+            this.txtY.Size = new System.Drawing.Size(60, 20);
+            this.txtY.TabIndex = 53;
+            // 
+            // btnAddPoint
+            // 
+            this.btnAddPoint.Location = new System.Drawing.Point(144, 28);
+            this.btnAddPoint.Name = "btnAddPoint";
+            this.btnAddPoint.Size = new System.Drawing.Size(75, 23);
+            this.btnAddPoint.TabIndex = 54;
+            this.btnAddPoint.Text = "Add Point";
+            this.btnAddPoint.UseVisualStyleBackColor = true;
+            this.btnAddPoint.Click += new System.EventHandler(this.BtnAddPoint_Click);
+            // 
+            // listBoxPoints
+            // 
+            this.listBoxPoints.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBoxPoints.FormattingEnabled = true;
+            this.listBoxPoints.Location = new System.Drawing.Point(750, 30);
+            this.listBoxPoints.Name = "listBoxPoints";
+            this.listBoxPoints.Size = new System.Drawing.Size(140, 120);
+            this.listBoxPoints.TabIndex = 55;
+            // 
+            // button2
+            //
             this.button2.Location = new System.Drawing.Point(441, 64);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
@@ -891,6 +929,10 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(902, 461);
+            this.Controls.Add(this.txtX);
+            this.Controls.Add(this.txtY);
+            this.Controls.Add(this.btnAddPoint);
+            this.Controls.Add(this.listBoxPoints);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.ToolStrip1);
             this.Controls.Add(this.label1);
@@ -1016,6 +1058,10 @@ namespace Graphical_2D_Frame_Analysis_CSharp
         private Label label1;
         private ToolStripMenuItem helpToolStripMenuItem;
         private ToolStripMenuItem aBOUTToolStripMenuItem;
+        private System.Windows.Forms.TextBox txtX;
+        private System.Windows.Forms.TextBox txtY;
+        private System.Windows.Forms.Button btnAddPoint;
+        private System.Windows.Forms.ListBox listBoxPoints;
     }
 }
 
