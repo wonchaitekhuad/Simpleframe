@@ -38,7 +38,9 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.viewResultTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblX = new System.Windows.Forms.Label();
             this.txtX = new System.Windows.Forms.TextBox();
+            this.lblY = new System.Windows.Forms.Label();
             this.txtY = new System.Windows.Forms.TextBox();
             this.btnAddPoint = new System.Windows.Forms.Button();
             this.listBoxPoints = new System.Windows.Forms.ListBox();
@@ -178,23 +180,41 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             this.viewPropertiesToolStripMenuItem.Text = "View Properties";
             this.viewPropertiesToolStripMenuItem.Click += new System.EventHandler(this.viewPropertiesToolStripMenuItem_Click);
             // 
-            // txtX
+            // lblX
             // 
-            this.txtX.Location = new System.Drawing.Point(12, 30);
+            this.lblX.AutoSize = true;
+            this.lblX.Location = new System.Drawing.Point(225, 33);
+            this.lblX.Name = "lblX";
+            this.lblX.Size = new System.Drawing.Size(14, 13);
+            this.lblX.TabIndex = 56;
+            this.lblX.Text = "X:";
+            // 
+            // txtX
+            //
+            this.txtX.Location = new System.Drawing.Point(245, 30);
             this.txtX.Name = "txtX";
             this.txtX.Size = new System.Drawing.Size(60, 20);
             this.txtX.TabIndex = 52;
             // 
+            // lblY
+            // 
+            this.lblY.AutoSize = true;
+            this.lblY.Location = new System.Drawing.Point(311, 33);
+            this.lblY.Name = "lblY";
+            this.lblY.Size = new System.Drawing.Size(14, 13);
+            this.lblY.TabIndex = 57;
+            this.lblY.Text = "Y:";
+            // 
             // txtY
             // 
-            this.txtY.Location = new System.Drawing.Point(78, 30);
+            this.txtY.Location = new System.Drawing.Point(331, 30);
             this.txtY.Name = "txtY";
             this.txtY.Size = new System.Drawing.Size(60, 20);
             this.txtY.TabIndex = 53;
             // 
             // btnAddPoint
             // 
-            this.btnAddPoint.Location = new System.Drawing.Point(144, 28);
+            this.btnAddPoint.Location = new System.Drawing.Point(397, 28);
             this.btnAddPoint.Name = "btnAddPoint";
             this.btnAddPoint.Size = new System.Drawing.Size(75, 23);
             this.btnAddPoint.TabIndex = 54;
@@ -929,7 +949,9 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(902, 461);
+            this.Controls.Add(this.lblX);
             this.Controls.Add(this.txtX);
+            this.Controls.Add(this.lblY);
             this.Controls.Add(this.txtY);
             this.Controls.Add(this.btnAddPoint);
             this.Controls.Add(this.listBoxPoints);
@@ -1058,7 +1080,9 @@ namespace Graphical_2D_Frame_Analysis_CSharp
         private Label label1;
         private ToolStripMenuItem helpToolStripMenuItem;
         private ToolStripMenuItem aBOUTToolStripMenuItem;
+        private System.Windows.Forms.Label lblX;
         private System.Windows.Forms.TextBox txtX;
+        private System.Windows.Forms.Label lblY;
         private System.Windows.Forms.TextBox txtY;
         private System.Windows.Forms.Button btnAddPoint;
         private System.Windows.Forms.ListBox listBoxPoints;

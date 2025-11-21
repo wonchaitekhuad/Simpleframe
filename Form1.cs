@@ -21854,39 +21854,30 @@ M3,0.0225,4.21875E-05,200000000";
         {
             try
             {
-                // Parse coordinates using InvariantCulture for consistent decimal parsing
-                if (!double.TryParse(txtX.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out double x))
+                // Parse and validate X coordinate
+                if (!TryParseCoordinate(txtX.Text, "X", out double x))
                 {
-                    MessageBox.Show("Invalid X coordinate. Please enter a valid number.", "Input Error", 
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                if (!double.TryParse(txtY.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out double y))
+                // Parse and validate Y coordinate
+                if (!TryParseCoordinate(txtY.Text, "Y", out double y))
                 {
-                    MessageBox.Show("Invalid Y coordinate. Please enter a valid number.", "Input Error", 
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Convert to integer Point (can be changed to PointF if fractional coordinates are needed)
-                System.Drawing.Point point = new System.Drawing.Point((int)x, (int)y);
+                // Round and convert to integer Point for consistent storage
+                // Using Math.Round for proper rounding rather than truncation
+                System.Drawing.Point point = new System.Drawing.Point(
+                    (int)Math.Round(x, MidpointRounding.AwayFromZero),
+                    (int)Math.Round(y, MidpointRounding.AwayFromZero));
                 
                 // Add to internal storage
                 _points.Add(point);
                 
-                // Add to ListBox for display
-                string displayText = string.Format(CultureInfo.InvariantCulture, "{0},{1}", x, y);
-                
-                // Thread-safe UI update (using Invoke if needed)
-                if (listBoxPoints.InvokeRequired)
-                {
-                    listBoxPoints.Invoke(new Action(() => listBoxPoints.Items.Add(displayText)));
-                }
-                else
-                {
-                    listBoxPoints.Items.Add(displayText);
-                }
+                // Add to ListBox for display - show the stored integer values for consistency
+                string displayText = $"{point.X},{point.Y}";
+                listBoxPoints.Items.Add(displayText);
 
                 // Clear input fields for next entry
                 txtX.Clear();
@@ -21897,9 +21888,29 @@ M3,0.0225,4.21875E-05,200000000";
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding point: {ex.Message}", "Error", 
+                // Log detailed exception for debugging but show generic message to user
+                Debug.WriteLine($"Error in BtnAddPoint_Click: {ex}");
+                MessageBox.Show("An error occurred while adding the point. Please try again.", "Error", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        /// <summary>
+        /// Helper method to parse and validate a coordinate value.
+        /// </summary>
+        /// <param name="text">Text to parse</param>
+        /// <param name="coordinateName">Name of coordinate (for error message)</param>
+        /// <param name="value">Parsed value if successful</param>
+        /// <returns>True if parsing succeeded, false otherwise</returns>
+        private bool TryParseCoordinate(string text, string coordinateName, out double value)
+        {
+            if (!double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out value))
+            {
+                MessageBox.Show($"Invalid {coordinateName} coordinate. Please enter a valid number.", "Input Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
