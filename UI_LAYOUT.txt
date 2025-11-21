@@ -1,0 +1,118 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║ Form1 - Graphical 2D Frame Analysis CSharp v1.1                               ║
+╠════════════════════════════════════════════════════════════════════════════════╣
+║ [Menubar: File | DrawBeam | Select | Member Load | ... ]                      ║
+║ [Toolbar: Zoom+/- | Supports | Analysis | ...]                                ║
+╠════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                ║
+║  [Read File]  [EXAMPLE]  [Model View]  X: [____]  Y: [____]  [Add Point]  [ListBox]║
+║  [File Save]  [Run]      [Draw DOF]                                          │10,20  │║
+║               [Graph]    [Output]                                             │25,30  │║
+║                                                                                │15,45  │║
+║  [DRAW]  [Select Member]  [Select Point]  [Delete]  [Undo Delete] [Edit]    └───────┘║
+║                                                                                ║
+╠════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                ║
+║  ┌──────────────────────────────────────────────────────────────────────┐    ║
+║  │                                                                      │    ║
+║  │                                                                      │    ║
+║  │                    [Drawing Canvas / PictureBox]                    │    ║
+║  │                                                                      │    ║
+║  │                 (Structural frame visualization)                    │    ║
+║  │                                                                      │    ║
+║  │                                                                      │    ║
+║  └──────────────────────────────────────────────────────────────────────┘    ║
+║                                                                                ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+NEW COORDINATE INPUT CONTROLS LAYOUT:
+
+┌─────────────────────────────────────────────────────────────┐
+│  Position (225,30):                                         │
+│   X: [txtX(60px)]   Y: [txtY(60px)]   [Add Point button]   │
+│      └─ user enters X coordinate                            │
+│                      └─ user enters Y coordinate            │
+│                                          └─ click to add     │
+│                                                              │
+│  Position (750,30) - Anchored Top+Right:                    │
+│   ┌───────────┐                                             │
+│   │  10,20    │  ← ListBox displays                         │
+│   │  25,30    │     entered coordinates                     │
+│   │  15,45    │     in "x,y" format                         │
+│   │  ...      │                                             │
+│   └───────────┘                                             │
+│                                                              │
+│  Data Flow:                                                 │
+│   1. User enters X value in txtX                            │
+│   2. User enters Y value in txtY                            │
+│   3. User clicks "Add Point" button                         │
+│   4. BtnAddPoint_Click validates and rounds values          │
+│   5. Point stored in _points List<Point>                    │
+│   6. Formatted "x,y" text added to listBoxPoints            │
+│   7. Input fields cleared, ready for next entry             │
+│                                                              │
+│  Programmatic Access:                                       │
+│   IReadOnlyList<Point> points = GetPoints();                │
+│   // Returns copy of all stored coordinates                 │
+└─────────────────────────────────────────────────────────────┘
+
+CONTROL POSITIONING DETAILS:
+
+Control       | X Pos | Y Pos | Width | Height | Purpose
+--------------|-------|-------|-------|--------|---------------------------
+lblX          | 225   | 33    | auto  | 13     | Label "X:" for clarity
+txtX          | 245   | 30    | 60    | 20     | X coordinate input
+lblY          | 311   | 33    | auto  | 13     | Label "Y:" for clarity
+txtY          | 331   | 30    | 60    | 20     | Y coordinate input
+btnAddPoint   | 397   | 28    | 75    | 23     | Trigger add operation
+listBoxPoints | 750   | 30    | 140   | 120    | Display coordinates
+              |       |       |       |        | (Anchored: Top+Right)
+
+VALIDATION & ERROR HANDLING:
+
+Input         Validation                    Error Message
+------------  ----------------------------- ------------------------------------
+txtX.Text     double.TryParse with          "Invalid X coordinate. Please enter
+              NumberStyles.Float,            a valid number."
+              InvariantCulture
+
+txtY.Text     double.TryParse with          "Invalid Y coordinate. Please enter
+              NumberStyles.Float,            a valid number."
+              InvariantCulture
+
+Exception     Generic catch-all with        "An error occurred while adding the
+              Debug.WriteLine logging        point. Please try again."
+
+STORAGE FORMAT:
+
+Input Type:     double (parsed from text)
+Storage Type:   System.Drawing.Point (integer x, integer y)
+Display Format: string "x,y" (e.g., "10,20")
+Rounding:       Math.Round(value, MidpointRounding.AwayFromZero)
+
+Examples:
+- Input: X=10.4, Y=20.6 → Stored: Point(10, 21) → Display: "10,21"
+- Input: X=5.5, Y=3.5   → Stored: Point(6, 4)    → Display: "6,4"
+- Input: X=0.0, Y=0.0   → Stored: Point(0, 0)    → Display: "0,0"
+
+PUBLIC API:
+
+Method:    public IReadOnlyList<Point> GetPoints()
+Returns:   Read-only list of all stored coordinate points
+Usage:     var coordinates = form.GetPoints();
+           foreach (var pt in coordinates) {
+               Console.WriteLine($"X={pt.X}, Y={pt.Y}");
+           }
+
+INTEGRATION POINT:
+
+Location: Form1.cs, line ~21885
+Marker:   // TODO: Integrate with real parser/analyzer when coordinate 
+          //       system is defined
+
+When ready to integrate:
+1. Retrieve points using GetPoints()
+2. Transform coordinates to match structural analysis coordinate system
+3. Pass to parser/analyzer for frame analysis
+4. Consider adding export/import functionality
+5. Consider adding edit/delete capabilities for ListBox items

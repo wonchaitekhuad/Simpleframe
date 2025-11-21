@@ -32,6 +32,9 @@ namespace Graphical_2D_Frame_Analysis_CSharp
 {
     public partial class Form1 : Form
     {
+        // Store user-entered coordinate points
+        private List<System.Drawing.Point> _points = new List<System.Drawing.Point>();
+
         public Form1()
         {
             InitializeComponent();
@@ -21838,6 +21841,86 @@ M3,0.0225,4.21875E-05,200000000";
             FABOUT f = new FABOUT();
 
             f.ShowDialog();
+        }
+
+        /// <summary>
+        /// Handler for Add Point button click.
+        /// Parses X and Y coordinate values from txtX and txtY textboxes,
+        /// validates them, and adds the point to the internal list and ListBox.
+        /// </summary>
+        /// <param name="sender">The control that raised the event</param>
+        /// <param name="e">Event arguments</param>
+        private void BtnAddPoint_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Parse and validate X coordinate
+                if (!TryParseCoordinate(txtX.Text, "X", out double x))
+                {
+                    return;
+                }
+
+                // Parse and validate Y coordinate
+                if (!TryParseCoordinate(txtY.Text, "Y", out double y))
+                {
+                    return;
+                }
+
+                // Round and convert to integer Point for consistent storage
+                // Using Math.Round for proper rounding rather than truncation
+                System.Drawing.Point point = new System.Drawing.Point(
+                    (int)Math.Round(x, MidpointRounding.AwayFromZero),
+                    (int)Math.Round(y, MidpointRounding.AwayFromZero));
+                
+                // Add to internal storage
+                _points.Add(point);
+                
+                // Add to ListBox for display - show the stored integer values for consistency
+                string displayText = $"{point.X},{point.Y}";
+                listBoxPoints.Items.Add(displayText);
+
+                // Clear input fields for next entry
+                txtX.Clear();
+                txtY.Clear();
+                txtX.Focus();
+
+                // TODO: Integrate with real parser/analyzer when coordinate system is defined
+            }
+            catch (Exception ex)
+            {
+                // Log detailed exception for debugging but show generic message to user
+                Debug.WriteLine($"Error in BtnAddPoint_Click: {ex}");
+                MessageBox.Show("An error occurred while adding the point. Please try again.", "Error", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Helper method to parse and validate a coordinate value.
+        /// </summary>
+        /// <param name="text">Text to parse</param>
+        /// <param name="coordinateName">Name of coordinate (for error message)</param>
+        /// <param name="value">Parsed value if successful</param>
+        /// <returns>True if parsing succeeded, false otherwise</returns>
+        private bool TryParseCoordinate(string text, string coordinateName, out double value)
+        {
+            if (!double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out value))
+            {
+                MessageBox.Show($"Invalid {coordinateName} coordinate. Please enter a valid number.", "Input Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Returns a read-only copy of the stored coordinate points.
+        /// This allows external code to access the points without modifying the internal list.
+        /// </summary>
+        /// <returns>Read-only list of coordinate points</returns>
+        public IReadOnlyList<System.Drawing.Point> GetPoints()
+        {
+            return _points.AsReadOnly();
         }
 
 
