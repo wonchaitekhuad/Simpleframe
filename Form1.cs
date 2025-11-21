@@ -21875,17 +21875,7 @@ M3,0.0225,4.21875E-05,200000000";
                 _points.Add((x, y));
 
                 // Add formatted string to ListBox
-                if (listBoxPoints.InvokeRequired)
-                {
-                    listBoxPoints.Invoke(new Action(() =>
-                    {
-                        listBoxPoints.Items.Add(string.Format(CultureInfo.InvariantCulture, "{0},{1}", x, y));
-                    }));
-                }
-                else
-                {
-                    listBoxPoints.Items.Add(string.Format(CultureInfo.InvariantCulture, "{0},{1}", x, y));
-                }
+                AddPointToListBox(x, y);
 
                 // Clear input fields for next entry
                 txtX.Clear();
@@ -21895,6 +21885,25 @@ M3,0.0225,4.21875E-05,200000000";
             catch (Exception ex)
             {
                 MessageBox.Show($"Error adding point: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Helper method to add a coordinate point to the ListBox in a thread-safe manner.
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        private void AddPointToListBox(double x, double y)
+        {
+            string formattedPoint = string.Format(CultureInfo.InvariantCulture, "{0},{1}", x, y);
+            
+            if (listBoxPoints.InvokeRequired)
+            {
+                listBoxPoints.Invoke(new Action(() => listBoxPoints.Items.Add(formattedPoint)));
+            }
+            else
+            {
+                listBoxPoints.Items.Add(formattedPoint);
             }
         }
 

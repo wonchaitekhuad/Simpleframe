@@ -944,7 +944,7 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             this.listBoxPoints.FormattingEnabled = true;
             this.listBoxPoints.Location = new System.Drawing.Point(320, 452);
             this.listBoxPoints.Name = "listBoxPoints";
-            this.listBoxPoints.Size = new System.Drawing.Size(570, 4);
+            this.listBoxPoints.Size = new System.Drawing.Size(570, 69);
             this.listBoxPoints.TabIndex = 57;
             // 
             // Form1
