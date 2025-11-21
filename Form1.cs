@@ -21884,7 +21884,14 @@ M3,0.0225,4.21875E-05,200000000";
         /// <summary>
         /// Simple tokenizer that splits input into tokens and classifies basic types.
         /// TODO: Replace this with the real C# structure analyzer/parser integration.
-        /// This is a minimal demonstration implementation.
+        /// 
+        /// IMPORTANT: This is a minimal demonstration implementation with known limitations:
+        /// - String escape sequences are not fully handled (e.g., backslash escaping)
+        /// - Multi-line comments (/* */) are not supported
+        /// - Complex operators (e.g., ++, --, ==, !=) are split into individual characters
+        /// - Verbatim strings (@"...") are not recognized
+        /// - Character literals ('a') are not distinguished from operators
+        /// This is intentionally simple and should be replaced with a proper lexer/parser.
         /// </summary>
         /// <param name="input">The source text to tokenize</param>
         /// <returns>List of classified tokens as strings</returns>
