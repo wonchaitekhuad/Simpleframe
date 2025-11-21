@@ -21873,7 +21873,7 @@ M3,0.0225,4.21875E-05,200000000";
                 _points.Add((x, y));
 
                 // Format and add to ListBox
-                string pointStr = string.Format(CultureInfo.InvariantCulture, "{0},{1}", x, y);
+                string pointStr = $"{x.ToString(CultureInfo.InvariantCulture)},{y.ToString(CultureInfo.InvariantCulture)}";
                 listBoxPoints.Items.Add(pointStr);
 
                 // Clear inputs for next point
@@ -21881,9 +21881,13 @@ M3,0.0225,4.21875E-05,200000000";
                 txtY.Clear();
                 txtX.Focus();
             }
-            catch (Exception ex)
+            catch (FormatException ex)
             {
-                MessageBox.Show($"Error adding point: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Format error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show($"Operation error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
