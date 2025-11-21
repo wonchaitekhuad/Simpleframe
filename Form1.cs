@@ -21840,6 +21840,224 @@ M3,0.0225,4.21875E-05,200000000";
             f.ShowDialog();
         }
 
+        #region Tokenizer for Code Analysis UI
+
+        /// <summary>
+        /// Event handler for the Analyze button click.
+        /// Tokenizes the input text and displays results in the ListBox.
+        /// </summary>
+        /// <param name="sender">The button that was clicked</param>
+        /// <param name="e">Event arguments</param>
+        private void BtnAnalyze_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get input text
+                string inputText = txtInput.Text;
+
+                if (string.IsNullOrWhiteSpace(inputText))
+                {
+                    MessageBox.Show("Please enter some text to analyze.", "No Input", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                // Clear previous results
+                listBoxTokens.Items.Clear();
+
+                // Tokenize the input
+                var tokens = SimpleTokenize(inputText);
+
+                // Display results (thread-safe pattern)
+                if (listBoxTokens.InvokeRequired)
+                {
+                    listBoxTokens.Invoke(new Action(() =>
+                    {
+                        foreach (var token in tokens)
+                        {
+                            listBoxTokens.Items.Add(token);
+                        }
+                    }));
+                }
+                else
+                {
+                    foreach (var token in tokens)
+                    {
+                        listBoxTokens.Items.Add(token);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error during analysis: {ex.Message}", "Error", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Simple tokenizer that splits input into tokens and classifies basic types.
+        /// TODO: Replace this with the real C# structure analyzer/parser integration.
+        /// This is a minimal demonstration implementation.
+        /// </summary>
+        /// <param name="input">The source text to tokenize</param>
+        /// <returns>List of classified tokens as strings</returns>
+        private List<string> SimpleTokenize(string input)
+        {
+            var tokens = new List<string>();
+            
+            // C# keywords for basic classification
+            var keywords = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "class", "public", "private", "protected", "internal", "static", "void",
+                "int", "string", "bool", "double", "float", "char", "var", "const",
+                "if", "else", "for", "while", "foreach", "do", "switch", "case",
+                "return", "break", "continue", "new", "this", "base", "using",
+                "namespace", "try", "catch", "finally", "throw"
+            };
+
+            // Operators
+            var operators = new HashSet<char> { '+', '-', '*', '/', '=', '<', '>', '!', '&', '|', '%', '^' };
+            
+            // Separators
+            var separators = new HashSet<char> { '(', ')', '{', '}', '[', ']', ';', ',', '.', ':' };
+
+            var currentToken = new StringBuilder();
+            bool inString = false;
+            bool inComment = false;
+            int lineNumber = 1;
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                char c = input[i];
+
+                // Track line numbers
+                if (c == '\n')
+                {
+                    lineNumber++;
+                }
+
+                // Handle string literals
+                if (c == '"' && (i == 0 || input[i - 1] != '\\'))
+                {
+                    if (inString)
+                    {
+                        currentToken.Append(c);
+                        tokens.Add($"[Line {lineNumber}] Literal: \"{currentToken}\"");
+                        currentToken.Clear();
+                        inString = false;
+                        continue;
+                    }
+                    else
+                    {
+                        if (currentToken.Length > 0)
+                        {
+                            ClassifyAndAddToken(currentToken.ToString(), keywords, tokens, lineNumber);
+                            currentToken.Clear();
+                        }
+                        inString = true;
+                        currentToken.Append(c);
+                        continue;
+                    }
+                }
+
+                if (inString)
+                {
+                    currentToken.Append(c);
+                    continue;
+                }
+
+                // Handle single-line comments
+                if (c == '/' && i + 1 < input.Length && input[i + 1] == '/')
+                {
+                    if (currentToken.Length > 0)
+                    {
+                        ClassifyAndAddToken(currentToken.ToString(), keywords, tokens, lineNumber);
+                        currentToken.Clear();
+                    }
+                    // Skip to end of line
+                    while (i < input.Length && input[i] != '\n')
+                    {
+                        i++;
+                    }
+                    continue;
+                }
+
+                // Handle operators
+                if (operators.Contains(c))
+                {
+                    if (currentToken.Length > 0)
+                    {
+                        ClassifyAndAddToken(currentToken.ToString(), keywords, tokens, lineNumber);
+                        currentToken.Clear();
+                    }
+                    tokens.Add($"[Line {lineNumber}] Operator: {c}");
+                    continue;
+                }
+
+                // Handle separators
+                if (separators.Contains(c))
+                {
+                    if (currentToken.Length > 0)
+                    {
+                        ClassifyAndAddToken(currentToken.ToString(), keywords, tokens, lineNumber);
+                        currentToken.Clear();
+                    }
+                    tokens.Add($"[Line {lineNumber}] Separator: {c}");
+                    continue;
+                }
+
+                // Handle whitespace
+                if (char.IsWhiteSpace(c))
+                {
+                    if (currentToken.Length > 0)
+                    {
+                        ClassifyAndAddToken(currentToken.ToString(), keywords, tokens, lineNumber);
+                        currentToken.Clear();
+                    }
+                    continue;
+                }
+
+                // Build current token
+                currentToken.Append(c);
+            }
+
+            // Handle any remaining token
+            if (currentToken.Length > 0)
+            {
+                ClassifyAndAddToken(currentToken.ToString(), keywords, tokens, lineNumber);
+            }
+
+            return tokens;
+        }
+
+        /// <summary>
+        /// Helper method to classify a token and add it to the token list.
+        /// </summary>
+        /// <param name="token">The token text to classify</param>
+        /// <param name="keywords">Set of known keywords</param>
+        /// <param name="tokens">List to add the classified token to</param>
+        /// <param name="lineNumber">Current line number</param>
+        private void ClassifyAndAddToken(string token, HashSet<string> keywords, List<string> tokens, int lineNumber)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                return;
+
+            if (keywords.Contains(token))
+            {
+                tokens.Add($"[Line {lineNumber}] Keyword: {token}");
+            }
+            else if (int.TryParse(token, out _) || double.TryParse(token, out _))
+            {
+                tokens.Add($"[Line {lineNumber}] Literal: {token}");
+            }
+            else
+            {
+                tokens.Add($"[Line {lineNumber}] Identifier: {token}");
+            }
+        }
+
+        #endregion
+
 
 
 

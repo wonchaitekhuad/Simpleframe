@@ -33,6 +33,9 @@ namespace Graphical_2D_Frame_Analysis_CSharp
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.txtInput = new System.Windows.Forms.TextBox();
+            this.btnAnalyze = new System.Windows.Forms.Button();
+            this.listBoxTokens = new System.Windows.Forms.ListBox();
             this.Panel1 = new System.Windows.Forms.Panel();
             this.PictureBox1 = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -124,6 +127,39 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             this.ToolStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // txtInput
+            // 
+            this.txtInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtInput.Location = new System.Drawing.Point(820, 60);
+            this.txtInput.Multiline = true;
+            this.txtInput.Name = "txtInput";
+            this.txtInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtInput.Size = new System.Drawing.Size(70, 60);
+            this.txtInput.TabIndex = 52;
+            // 
+            // btnAnalyze
+            // 
+            this.btnAnalyze.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAnalyze.Location = new System.Drawing.Point(820, 125);
+            this.btnAnalyze.Name = "btnAnalyze";
+            this.btnAnalyze.Size = new System.Drawing.Size(70, 25);
+            this.btnAnalyze.TabIndex = 53;
+            this.btnAnalyze.Text = "Analyze";
+            this.btnAnalyze.UseVisualStyleBackColor = true;
+            this.btnAnalyze.Click += new System.EventHandler(this.BtnAnalyze_Click);
+            // 
+            // listBoxTokens
+            // 
+            this.listBoxTokens.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBoxTokens.FormattingEnabled = true;
+            this.listBoxTokens.Location = new System.Drawing.Point(12, 455);
+            this.listBoxTokens.Name = "listBoxTokens";
+            this.listBoxTokens.Size = new System.Drawing.Size(878, 4);
+            this.listBoxTokens.TabIndex = 54;
             // 
             // Panel1
             // 
@@ -891,6 +927,9 @@ namespace Graphical_2D_Frame_Analysis_CSharp
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(902, 461);
+            this.Controls.Add(this.listBoxTokens);
+            this.Controls.Add(this.btnAnalyze);
+            this.Controls.Add(this.txtInput);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.ToolStrip1);
             this.Controls.Add(this.label1);
@@ -1016,6 +1055,21 @@ namespace Graphical_2D_Frame_Analysis_CSharp
         private Label label1;
         private ToolStripMenuItem helpToolStripMenuItem;
         private ToolStripMenuItem aBOUTToolStripMenuItem;
+        
+        /// <summary>
+        /// Multiline TextBox for source code input
+        /// </summary>
+        private System.Windows.Forms.TextBox txtInput;
+        
+        /// <summary>
+        /// Button to trigger tokenization/analysis
+        /// </summary>
+        private System.Windows.Forms.Button btnAnalyze;
+        
+        /// <summary>
+        /// ListBox to display tokenization results
+        /// </summary>
+        private System.Windows.Forms.ListBox listBoxTokens;
     }
 }
 
